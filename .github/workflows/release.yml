@@ -14,7 +14,7 @@ jobs:
       with:
         manylinux: auto
         command: build
-        args: --release --sdist -o dist --interpreter 3.10.7
+        args: --release --sdist -o dist --find-interpreter
     - name: Upload wheels
       uses: actions/upload-artifact@v2
       with:
@@ -28,7 +28,7 @@ jobs:
     - uses: messense/maturin-action@v1
       with:
         command: build
-        args: --release -o dist --interpreter 3.10.7
+        args: --release -o dist --find-interpreter
     - name: Upload wheels
       uses: actions/upload-artifact@v2
       with:
@@ -42,7 +42,7 @@ jobs:
     - uses: messense/maturin-action@v1
       with:
         command: build
-        args: --release -o dist --universal2 --interpreter 3.10.7
+        args: --release -o dist --universal2 --find-interpreter
     - name: Upload wheels
       uses: actions/upload-artifact@v2
       with:
