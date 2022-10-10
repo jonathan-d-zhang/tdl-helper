@@ -59,9 +59,10 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: wheels
+          path: wheels
       - name: Release Build
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            wheels
+            wheels/*
             *.py
