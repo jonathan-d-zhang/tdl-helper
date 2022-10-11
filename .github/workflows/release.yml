@@ -11,18 +11,23 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Build x86_64
+#    - name: Build x86_64
+#      uses: messense/maturin-action@v1
+#      with:
+#        command: build
+#        target: x86_64-apple-darwin
+#        args: --release -o dist --interpreter python3.10
+#    - name: Build aarch64
+#      uses: messense/maturin-action@v1
+#      with:
+#        command: build
+#        target: aarch64-apple-darwin
+#        args: --release -o dist --interpreter python3.10
+    - name: Build universal2
       uses: messense/maturin-action@v1
       with:
         command: build
-        target: x86_64-apple-darwin
-        args: --release -o dist --interpreter python3.10
-    - name: Build aarch64
-      uses: messense/maturin-action@v1
-      with:
-        command: build
-        target: aarch64-apple-darwin
-        args: --release -o dist --interpreter python3.10
+        args: --release -o dist --interpreter python3.10 --universal2
     - name: Upload wheels
       uses: actions/upload-artifact@v2
       with:
