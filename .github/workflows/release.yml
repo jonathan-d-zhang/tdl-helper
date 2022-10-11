@@ -42,7 +42,7 @@ jobs:
     - uses: messense/maturin-action@v1
       with:
         command: build
-        target: x86_64-apple-darwin
+        target: aarch64-apple-darwin
         args: --release -o dist --interpreter python3.10
     - name: Upload wheels
       uses: actions/upload-artifact@v2
