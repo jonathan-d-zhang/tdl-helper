@@ -6,25 +6,19 @@ on:
       - 'v*'
 
 jobs:
-  macos-11:
-    runs-on: macos-11
+  macos:
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: messense/maturin-action@v1
+
+    - name: Build x86_64
+      uses: messense/maturin-action@v1
       with:
         command: build
         target: x86_64-apple-darwin
         args: --release -o dist --interpreter python3.10
-    - name: Upload wheels
-      uses: actions/upload-artifact@v2
-      with:
-        name: wheels
-        path: dist
-  macos-12:
-    runs-on: macos-12
-    steps:
-    - uses: actions/checkout@v3
-    - uses: messense/maturin-action@v1
+    - name: Build aarch64
+      uses: messense/maturin-action@v1
       with:
         command: build
         target: aarch64-apple-darwin
@@ -39,7 +33,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     if: "startsWith(github.ref, 'refs/tags/')"
-    needs: [ macos-11, macos-12 ]
+    needs: [ macos ]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v2
