@@ -37,11 +37,15 @@ fn read_file() -> Vec<String> {
     match t {
         Ok(s) => {
             if !s.is_empty() {
-                out.extend(s.split("\n").map(str::to_string));
+                out.extend(s.split('\n').map(str::to_string));
             }
         }
         Err(_) => {
-            fs::OpenOptions::new().write(true).create_new(true).open("data.txt").unwrap();
+            fs::OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open("data.txt")
+                .unwrap();
         }
     }
 
@@ -52,10 +56,9 @@ fn read_file() -> Vec<String> {
 #[pyfunction]
 pub fn print_tasks() -> PyResult<()> {
     let data = read_file();
-    println!("{:<20} {:<20}", "Name", "Description");
     for task in &data {
-        let fields: Vec<_> = task.split("$").collect();
-        println!("{:<20} {:<20}", fields[0], fields[1]);
+        let fields: Vec<_> = task.split('$').collect();
+        println!("{} {}", fields[0], fields[1]);
     }
     Ok(())
 }
@@ -73,7 +76,10 @@ pub fn modify_task() -> PyResult<()> {
     let new_name = read_input_string("New name?").unwrap();
     let new_desc = read_input_string("New description?").unwrap();
 
-    let i = data.iter().position(|t| t.split("$").next().unwrap() == to_modify).unwrap();
+    let i = data
+        .iter()
+        .position(|t| t.split('$').next().unwrap() == to_modify)
+        .unwrap();
 
     data[i] = format!("{}${}", new_name, new_desc);
 
@@ -92,7 +98,10 @@ pub fn delete_task() -> PyResult<()> {
 
     let to_delete = read_input_string("What task to delete?").unwrap();
 
-    let i = data.iter().position(|t| t.split("$").next().unwrap() == to_delete).unwrap();
+    let i = data
+        .iter()
+        .position(|t| t.split('$').next().unwrap() == to_delete)
+        .unwrap();
 
     data.remove(i);
 
@@ -110,4 +119,3 @@ fn tdl_helper(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(delete_task, m)?)?;
     Ok(())
 }
-
