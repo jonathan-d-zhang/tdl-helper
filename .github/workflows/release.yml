@@ -25,6 +25,46 @@ jobs:
         name: wheels
         path: dist
 
+  windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Cache Rust dependencies
+      uses: Swatinem/rust-cache@v2.0.0
+
+    - name: Build wheel
+      uses: messense/maturin-action@v1
+      with:
+        command: build
+        args: --release -o dist --interpreter python3.10 --strip
+
+    - name: Upload wheels
+      uses: actions/upload-artifact@v2
+      with:
+        name: wheels
+        path: dist
+
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Cache Rust dependencies
+      uses: Swatinem/rust-cache@v2.0.0
+
+    - name: Build wheel
+      uses: messense/maturin-action@v1
+      with:
+        command: build
+        args: --release -o dist --interpreter python3.10 --strip
+
+    - name: Upload wheels
+      uses: actions/upload-artifact@v2
+      with:
+        name: wheels
+        path: dist
+
   release:
     name: Release
     runs-on: ubuntu-latest
